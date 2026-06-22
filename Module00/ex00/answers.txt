@@ -1,0 +1,17 @@
+Commands:
+
+1. Output a list of installed packages and their versions =>
+    if in conda environment (conda activate 42AI-rabdolho): conda list,
+    or with pip(pip installs packages): pip list
+
+2. Show the package metadata of numpy =>
+    pip show numpy | python -m pip show numpy | conda list numpy
+
+3. Remove the package numpy =>
+    pip uninstall numpy | python -m pip uninstall numpy | conda remove numpy
+
+4. (Re)install the package numpy =>
+    pip install numpy | conda install numpy
+
+5. Freeze your python packages and their versions in a requirements.txt file you have to turn-in =>
+    pip freeze > requirements.txt  
