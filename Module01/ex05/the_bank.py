@@ -25,21 +25,23 @@ class Account(object):
 
 
 class Bank():
-    def __init__(self, data):
-        if not isinstance(data, Account):
-            raise TypeError("Data must be type of Account class")
+    def __init__(self):
         self.accounts = []
     
     @staticmethod
     def iscorrupted(data: Account):
         if len(data.__dict__) % 2 == 0:
             return True
-        for att in data.__dict__.dir():
+        for att in data.__dict__:
             if att[0] == 'b':
                 return True
-        if not 'name'and 'id'and'value' in data.__dict__.dir():
+        if 'name' not in data.__dict__:
             return True
-        for att in data.__dict__.dir():
+        if 'id' not in data.__dict__:
+            return True
+        if 'value' not in data.__dict__:
+            return True
+        for att in data.__dict__:
             if att.startswith("zip") or att.startswith("addr"):
                 return False
             return True
@@ -53,7 +55,7 @@ class Bank():
     
 
     def add(self, data: Account):
-        if self.iscorrupted(data):
+        if not isinstance(data, Account):
             return False
         for account in self.accounts:
             if account.name == data.name:
@@ -61,17 +63,24 @@ class Bank():
             else:
                 self.accounts.append(data)
                 return True
+    def get_account(self, name: str):
+        for account in self.accounts:
+            if account.name == name:
+                return account
+        return None
     
     def transfer(self, origin:str, dest:str, amount:float):
         if not isinstance(origin, str) or not isinstance(dest, str) or not isinstance(amount, float):
             return False
         if origin == dest :
             return True
-        if amount < 0 or amount > self.accounts[origin].balance:
+        origin_account = self.get_account(origin)
+        dest_account = self.get_account(dest)
+        if amount < 0 or amount > origin_account.value:
             return False
-        if not self.iscorrupted(self.accounts[origin]) and not self.iscorrupted(self.accounts[dest]):
-            self.accounts[origin].value -= amount
-            self.accounts[dest].value += amount
+        if not self.iscorrupted(origin_account) and not self.iscorrupted(dest_account):
+            origin_account.value -= amount
+            dest_account.value += amount
             return True
         else:
             return False
