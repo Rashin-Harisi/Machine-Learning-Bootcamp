@@ -3,7 +3,7 @@
 #Difference between tuple and list: the value of tuple elements can not be changed
 kata = (19,42,21)
 i = 0
-
+#len(kata) and check for the type (if any(...))
 print("The 3 numbers are: ", end="")
 for c in kata:
     print(c, end="")

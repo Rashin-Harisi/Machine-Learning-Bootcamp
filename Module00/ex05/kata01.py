@@ -7,6 +7,6 @@ kata = {
 'PHP': 'Rasmus Lerdorf',
 }
 
-
+#check the types always 
 for key,value in kata.items():
     print(f"{key} was created by {value}")

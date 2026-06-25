@@ -3,4 +3,4 @@
 kata = "The right format"
 
 #print(f"{kata:->42}")
-print(kata.rjust(42, "-"), end="")
+print(kata.rjust(42, "-"), end="\n")
