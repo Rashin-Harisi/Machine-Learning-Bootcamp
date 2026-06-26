@@ -6,6 +6,9 @@
 #            Every Python object stores its attributes inside a dictionary called: self.__dict__
 # class attributes vs. instance attributes => there is only one copy of class attributes, shared by all Account.
 # The dir() function is a built-in Python tool used to list the attributes (like methods, variables, etc.) of an object.
+
+import random
+
 class Account(object):
     ID_COUNT = 1
     def __init__(self, name, **kwargs):
@@ -30,20 +33,17 @@ class Bank():
     
     @staticmethod
     def iscorrupted(data: Account):
-        if len(data.__dict__) % 2 == 0:
+        attrs = data.__dict__
+
+        if len(attrs) % 2 == 0:
             return True
-        for att in data.__dict__:
-            if att[0] == 'b':
-                return True
-        if 'name' not in data.__dict__:
+        if any(attr.startswith("b") for attr in attrs):
             return True
-        if 'id' not in data.__dict__:
+        if ('name' not in attrs
+            or "id" not in attrs
+            or "value" not in attrs):
             return True
-        if 'value' not in data.__dict__:
-            return True
-        for att in data.__dict__:
-            if att.startswith("zip") or att.startswith("addr"):
-                return False
+        if not any(attr.startswith(("zip", "addr")) for attr in attrs):
             return True
         if not isinstance(data.name, str):
             return True
@@ -54,35 +54,67 @@ class Bank():
         return False 
     
 
-    def add(self, data: Account):
-        if not isinstance(data, Account):
-            return False
-        for account in self.accounts:
-            if account.name == data.name:
-                return False
-            else:
-                self.accounts.append(data)
-                return True
     def get_account(self, name: str):
         for account in self.accounts:
             if account.name == name:
                 return account
         return None
     
+    def add(self, data: Account):
+        if not isinstance(data, Account):
+            return False
+        if self.get_account(data.name) is not None:
+            return False
+        self.accounts.append(data)
+        return True
+    
     def transfer(self, origin:str, dest:str, amount:float):
         if not isinstance(origin, str) or not isinstance(dest, str) or not isinstance(amount, float):
             return False
-        if origin == dest :
-            return True
+        
+        if amount < 0 :
+            return False
+        
         origin_account = self.get_account(origin)
         dest_account = self.get_account(dest)
-        if amount < 0 or amount > origin_account.value:
+        if origin_account is None or dest_account is None:
             return False
-        if not self.iscorrupted(origin_account) and not self.iscorrupted(dest_account):
-            origin_account.value -= amount
-            dest_account.value += amount
+        if self.iscorrupted(origin_account) or self.iscorrupted(dest_account):
+            return False
+        
+        if  amount > origin_account.value:
+            return False
+        
+        if origin == dest :
             return True
-        else:
+        
+        origin_account.value -= amount
+        dest_account.value += amount
+        return True
+     
+    def fix_account(self, name: str):
+        if not isinstance(name, str):
             return False
-    
-    def fix_accout(self, name: str):
+        account = self.get_account(name)
+        if account is None: 
+            return False
+
+        attrs = account.__dict__
+        for attr in list(attrs):
+            if attr.startswith("b"):
+                delattr(account, attr)
+        if not any(attr.startswith(("zip", "addr")) for attr in attrs):
+            account.zip = ""
+        if "name" not in attrs or not isinstance(account.name , str):
+            account.name = name
+        if "id" not in attrs or not isinstance(account.id, int):
+            account.id = Account.ID_COUNT
+            Account.ID_COUNT += 1
+        if "value" not in attrs or not isinstance(account.value, (int,float)):
+            account.value = 0
+        if len(attrs) % 2 == 0:
+             account.fix = True
+        return not self.iscorrupted(account)
+
+
+        
