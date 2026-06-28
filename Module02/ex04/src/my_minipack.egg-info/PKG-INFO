@@ -1,0 +1,35 @@
+Metadata-Version: 2.1
+Name: my-minipack
+Version: 1.0.0
+Summary: Howto create a package in python.
+Author-email: Rashin Harisi <rabdolho@student.42vienna.com>
+License: GPLv3
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Students
+Classifier: Topic :: Education
+Classifier: Topic :: HowTo
+Classifier: Topic :: Package
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+
+# my_minipack
+
+A small educational Python package created for the Python Bootcamp Module 02 exercise.
+
+## Modules
+
+### progressbar
+
+Contains a simple progress bar implementation.
+
+Import:
+
+```python
+import my_minipack.progressbar
+import my_minipack.logger
+```

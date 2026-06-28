@@ -1,0 +1,47 @@
+PyPi => pythin package index =>the store for python's packages
+
+pip install numpy => pip->PyPi->numpy.whl->download->install->site-packages(all installed package stored here)
+https://pypi.org
+package means that we prepare the whole project in a standard way so it can be installed with one command
+
+the structure for package:
+    Project/
+        pyproject.toml (name, version, description, authors,how to buid)
+        REEADME.md
+        LICENSE
+
+        src/ (src Layout =>if there is import mistakes, we get error sooner )
+            project/
+                __init__.py (it says that this folder is a package, so you can use import project)
+                *.py
+
+
+Build => python -m build => convert all files of project to files that can be installed by pip in "dest" folder
+        build->pyproject.toml->build backend->wheel + source Distribution->dist/
+
+dest/
+    *.tar.gz (Source Distribution(sdist) => if no Whell, use this)
+    *.whl (it is like exe file in windows => prepared version for installation)
+
+build backend => python does not build itself => setuptools | hatchling | flit
+                you define in pyproject.toml :
+                [biuld-system]
+                requires=["setuptools"]
+                build-backend = "setuptools.build_meta"
+
+pip install vs pip install -e(Editable) =>
+    in editable version files are not copied, just one like to the project will built and any changes in
+    files will be shown imediatelly in the installed packade
+    
+
+
+#!/bin/bash
+
+python -m pip install --upgrade pip setuptools wheel build
+    m => Run a Python module as a program. Instead of running a Python file directly, 
+    Python finds the installed module and executes it.
+    python -m pip => means start python, find the pip module, and run pip
+    --upgrade => pip checks PyPI and installs a newer version if one exists.
+                 without this, if the package exist, nothing happend.
+python -m build
+python -m pip install dist/my_minipack-1.0.0.tar.gz
