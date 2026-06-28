@@ -1,0 +1,14 @@
+Mean: To fill in missing values ​​or calculate the average of features.
+
+Median: A better alternative to Mean when there are outliers.
+
+Quartiles: To detect outliers and draw graphs such as Box Plots.
+
+Variance: Shows how much information a feature has; a feature with zero variance adds 
+          almost no information.
+
+Standard Deviation: Plays a fundamental role in standardizing data (Feature Scaling) 
+                    and calculating Z-Score.
+
+
+numpy.ndarray => N-dimensional Array
